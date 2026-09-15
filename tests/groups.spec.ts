@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { GroupsPage } from '../pages/groups-pages';
 import { validGroupsData, invalidGroupsData } from '../test_data/groups-data';
+import { Group } from '../data_models/Group';
 
 
 for (const group of validGroupsData){
-    test.only (group.name, async ({ page }) => {
+    test (group.name, async ({ page }) => {
     await page.goto('/')
 
     const groupsPage = new GroupsPage(page);
@@ -27,3 +28,23 @@ for (const group of invalidGroupsData){
     await expect(groupModal.errorLabel).toContainText(group.errorMessage)
 });
 }
+
+test.only ('private groups should allow link sharing for accessibility by the creating device', async ({page}) => {
+    await page.goto('/')
+
+    const group = new Group();
+    const groupsPage = new GroupsPage(page);
+
+    group.name = 'private group'
+    group.isPublic = false
+    
+    await groupsPage.createNewGroup(group)
+
+    await expect(groupsPage.getGroupPrivateLinkByName(group.name)).toBeVisible()
+})
+
+test ('public groups is directly accessible by anyone', async ({page}) => {
+    await page.goto('/')
+
+    //
+})

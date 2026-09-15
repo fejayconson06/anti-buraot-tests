@@ -24,4 +24,9 @@ export class GroupsPage {
         .locator('.group-name-row h2')
         .filter({ hasText: name });
     }
+
+    getGroupPrivateLinkByName(name: string): Locator {
+        const group = this.getGroupByName(name)
+        return group.locator('.invite-group-button')
+    }
 }

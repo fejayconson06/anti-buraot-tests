@@ -10,6 +10,7 @@ export class GroupModal{
     readonly saveBtn: Locator;
     readonly addMemberLink: Locator;
     readonly errorLabel: Locator;
+    readonly createNewBtn: Locator;
 
     constructor(page: Page){
         this.page = page;
@@ -20,9 +21,11 @@ export class GroupModal{
         this.saveBtn = page.getByText('Save group ')
         this.addMemberLink = page.locator('.add-member-button')
         this.errorLabel = page.locator('#group-error')
+        this.createNewBtn = page.locator('#create-new-group')
     }
 
     async createGroup(group:Group){
+        await this.createNewBtn.click()
         await this.groupNameField.fill(group.name)
         await this.defaulCurrencyDpdown.selectOption(group.defaultCurrency)
         
