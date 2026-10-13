@@ -29,7 +29,7 @@ for (const group of invalidGroupsData){
 });
 }
 
-test.only ('private groups should allow link sharing for accessibility by the creating device', async ({page}) => {
+test ('private groups should be visible and allow link sharing for accessibility by the creating device', async ({page}) => {
     await page.goto('/')
 
     const group = new Group();
@@ -41,6 +41,27 @@ test.only ('private groups should allow link sharing for accessibility by the cr
     await groupsPage.createNewGroup(group)
 
     await expect(groupsPage.getGroupPrivateLinkByName(group.name)).toBeVisible()
+})
+
+test ('private groups should not be visible by a non-creating device', async ({page, browser}) => {
+    await page.goto('/')
+
+    const group = new Group();
+    const groupsPage = new GroupsPage(page);
+
+    group.name = 'private group visibility'
+    group.isPublic = false
+    
+    await groupsPage.createNewGroup(group)
+
+    const nonCreatingDeviceContext = await browser.newContext();
+    const nonCreatingPage = await nonCreatingDeviceContext.newPage();
+    const nonCreatingGroupsPage = new GroupsPage(nonCreatingPage)
+
+    await nonCreatingPage.goto('/');
+    
+    await expect(nonCreatingGroupsPage.loadingIndicator).toBeHidden();
+    await expect(nonCreatingGroupsPage.getGroupByName(group.name)).not.toBeVisible();
 })
 
 test ('public groups is directly accessible by anyone', async ({page}) => {

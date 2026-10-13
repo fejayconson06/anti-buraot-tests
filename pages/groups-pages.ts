@@ -5,10 +5,12 @@ import { GroupModal } from '../components/add-group-modal';
 export class GroupsPage {
     readonly page: Page;
     readonly newGroupButton: Locator; 
+    readonly loadingIndicator: Locator;
 
     constructor(page:Page){
         this.page = page;
         this.newGroupButton = page.locator('#new-group-button')
+        this.loadingIndicator = page.locator('#firebase-empty-state')
     }
 
     async createNewGroup(group:Group){
@@ -27,6 +29,6 @@ export class GroupsPage {
 
     getGroupPrivateLinkByName(name: string): Locator {
         const group = this.getGroupByName(name)
-        return group.locator('.invite-group-button')
+        return group.locator('..').locator('.invite-group-button')
     }
 }
