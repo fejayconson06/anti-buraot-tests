@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { Group } from '../data_models/Group';
+import { Group } from '../../data_models/Group';
 
 export class GroupModal{
     readonly page: Page;

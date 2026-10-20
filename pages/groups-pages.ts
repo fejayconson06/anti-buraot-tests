@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { Group } from '../data_models/Group';
-import { GroupModal } from '../components/add-group-modal';
+import { GroupModal } from './components/add-group-modal';
 
 export class GroupsPage {
     readonly page: Page;

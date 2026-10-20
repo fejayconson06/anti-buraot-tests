@@ -56,7 +56,7 @@ export const test = base.extend<MyFixtures>({
         await use(visitor)
 
         await visitorContext.close()
-    }
+    },
 })
 
 
