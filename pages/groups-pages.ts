@@ -6,11 +6,22 @@ export class GroupsPage {
     readonly page: Page;
     readonly newGroupButton: Locator; 
     readonly loadingIndicator: Locator;
+    readonly groupCards: Locator;
 
     constructor(page:Page){
         this.page = page;
         this.newGroupButton = page.locator('#new-group-button')
-        this.loadingIndicator = page.locator('#firebase-empty-state')
+        this.loadingIndicator = page.locator('.firebase-empty-state')
+        this.groupCards = page.locator('.group-card')
+    }
+
+    async goTo(){
+        await this.page.goto('/');
+
+        await this.newGroupButton.waitFor({
+            state: 'visible',
+            timeout: 10000
+        })
     }
 
     async createNewGroup(group:Group){
@@ -21,14 +32,29 @@ export class GroupsPage {
         return groupModal
     }
 
-    getGroupByName(name: string): Locator {
-        return this.page
-        .locator('.group-name-row h2')
-        .filter({ hasText: name });
+    async deleteGroup(group: Group){
+        const gName = this.getGroupByName(group.name)
+        await gName.locator('..').locator('.delete-group-button').click();
+        await this.page.locator('#confirm-delete').click();
+      
+        await gName.waitFor({
+            state: 'detached',
+        })
     }
 
-    getGroupPrivateLinkByName(name: string): Locator {
-        const group = this.getGroupByName(name)
-        return group.locator('..').locator('.invite-group-button')
+    getGroupByName(name: string): Locator {
+        return this.page
+        .locator('.group-card')
+        .filter(
+            {
+                has: this.page.locator('h2', { hasText: name })
+            })
     }
+
+    getGroupPrivateLink(group: Group): Locator {
+        const gName = this.getGroupByName(group.name)
+        return gName.locator('..').locator('.invite-group-button')
+    }
+
+    
 }

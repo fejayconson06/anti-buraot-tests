@@ -6,9 +6,10 @@ export class Group{
     errorMessage: string;
 
     constructor(){
-        this.name = "";
+        this.name = "Automated Group";
         this.defaultCurrency = "PHP";
         this.isPublic = true;
         this.members = ["Default One", "Default Two"];
+        this.errorMessage = "";
     }
 }
