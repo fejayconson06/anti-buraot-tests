@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { Group } from '../data_models/Group';
+import { Group } from '../data_structures/Group';
 import { GroupModal } from './components/add-group-modal';
 
 export class GroupsPage {
@@ -33,7 +33,7 @@ export class GroupsPage {
     }
 
     async deleteGroup(group: Group){
-        const gName = this.getGroupByName(group.name)
+        const gName = this.getGroup(group.name)
         await gName.locator('..').locator('.delete-group-button').click();
         await this.page.locator('#confirm-delete').click();
       
@@ -42,7 +42,7 @@ export class GroupsPage {
         })
     }
 
-    getGroupByName(name: string): Locator {
+    getGroup(name: string): Locator {
         return this.page
         .locator('.group-card')
         .filter(
@@ -52,7 +52,7 @@ export class GroupsPage {
     }
 
     getGroupPrivateLink(group: Group): Locator {
-        const gName = this.getGroupByName(group.name)
+        const gName = this.getGroup(group.name)
         return gName.locator('..').locator('.invite-group-button')
     }
 

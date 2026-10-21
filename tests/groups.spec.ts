@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/my-fixtures';
 import { GroupsPage } from '../pages/groups-pages';
 import { validGroupsData, invalidGroupsData } from '../test_data/groups-data';
-import { Group } from '../data_models/Group';
+import { Group } from '../data_structures/Group';
 
 
 for (const group of validGroupsData){
@@ -12,7 +12,7 @@ for (const group of validGroupsData){
     await groupsPage.createNewGroup(group);
 
     // Validations
-    await expect(groupsPage.getGroupByName(group.name)).toBeVisible();
+    await expect(groupsPage.getGroup(group.name)).toBeVisible();
     await page.waitForTimeout(5000);
     
     });
@@ -65,7 +65,7 @@ test.describe('private groups NO FIXTURES', () => {
             await nonCreatingPage.goto('/');
             
             await expect(nonCreatingGroupsPage.loadingIndicator).toBeHidden();
-            await expect(nonCreatingGroupsPage.getGroupByName(group.name)).not.toBeVisible();
+            await expect(nonCreatingGroupsPage.getGroup(group.name)).not.toBeVisible();
     })
 
     test('should be joinable by code', async ({page, browser}) => {
@@ -85,7 +85,7 @@ test.describe('public groups', () => {
             const {publicGroup} = publicCreator
 
             await visitor.goTo()
-            await expect(visitor.getGroupByName(publicGroup.name)).toBeVisible();
+            await expect(visitor.getGroup(publicGroup.name)).toBeVisible();
         }
     )
 })
@@ -104,7 +104,7 @@ test.describe('private groups WITH FIXTURES', () => {
         const {privateGroup} = privateCreator
 
         await visitor.goTo()
-        await expect(visitor.getGroupByName(privateGroup.name)).not.toBeVisible();
+        await expect(visitor.getGroup(privateGroup.name)).not.toBeVisible();
     })
 })
 

@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
 import { GroupsPage } from '../pages/groups-pages';
-import { Group } from '../data_models/Group';
+import { Group } from '../data_structures/Group';
 
 type MyFixtures = {
     publicCreator: {

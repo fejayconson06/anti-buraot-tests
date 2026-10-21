@@ -1,4 +1,4 @@
-import { Group } from "../data_models/Group";
+import { Group } from "../data_structures/Group";
 
 export const validGroupsData: Group[] = [
     {
